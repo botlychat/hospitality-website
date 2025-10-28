@@ -1,0 +1,3175 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservation Details — Aria Resorts</title>
+    <meta name="description" content="Complete your reservation at Aria Resorts. Review your booking details and proceed with secure payment.">
+    <link rel="canonical" href="https://chalets-9qhr.vercel.app/reservation-details">
+    <meta property="og:title" content="Reservation Details — Aria Resorts">
+    <meta property="og:description" content="Complete your luxury chalet reservation with secure payment options.">
+    <meta property="og:type" content="website">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="./Home Page_files/aria.png">
+    
+    <style>
+        :root {
+            --theme-color: #5A4099;
+            --theme-light: #f4f0ff;
+            --success-color: #10B981;
+            --warning-color: #F59E0B;
+            --error-color: #EF4444;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8fafc;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #003366, #004d99);
+            color: white;
+            padding: 0.75rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .language-switcher {
+            position: relative;
+        }
+
+        .language-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .language-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateX(-2px);
+            text-decoration: none;
+            color: white;
+        }
+
+        /* RTL Support */
+        [dir="rtl"] {
+            direction: rtl;
+            text-align: right;
+        }
+
+        [dir="rtl"] .header-content {
+            flex-direction: row-reverse;
+        }
+
+        [dir="rtl"] .header-actions {
+            flex-direction: row-reverse;
+        }
+
+        [dir="rtl"] .back-btn i {
+            transform: scaleX(-1);
+        }
+        
+        /* Skip Link */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: var(--theme-color);
+            color: white;
+            padding: 8px;
+            text-decoration: none;
+            border-radius: 0 0 4px 4px;
+            z-index: 100;
+        }
+        
+        .skip-link:focus {
+            top: 0;
+        }
+        
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+        
+        /* Unit Details Card */
+        .unit-card {
+            background: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .unit-media {
+            position: relative;
+            height: 300px;
+            overflow: hidden;
+        }
+        
+        .unit-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .unit-info {
+            padding: 2rem;
+        }
+        
+        .unit-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+        
+        .unit-price {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--theme-color);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .currency-icon {
+            width: 1.2rem;
+            height: 1.2rem;
+        }
+        
+        .unit-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #6b7280;
+        }
+        
+        .feature i {
+            color: var(--theme-color);
+        }
+        
+        .amenities {
+            margin-bottom: 1.5rem;
+        }
+        
+        .amenities h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #6b7280;
+            margin-bottom: 0.75rem;
+        }
+        
+        .amenities-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .amenity-tag {
+            background: var(--theme-light);
+            color: var(--theme-color);
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        /* Reservation Summary */
+        .reservation-summary {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            height: fit-content;
+            position: sticky;
+            top: 2rem;
+        }
+        
+        .summary-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        
+        .summary-row:last-child {
+            border-bottom: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--theme-color);
+        }
+        
+        .summary-label {
+            color: #6b7280;
+        }
+        
+        .summary-value {
+            font-weight: 500;
+        }
+        
+        .total-amount {
+            background: var(--theme-light);
+            margin: 1rem -2rem;
+            padding: 1rem 2rem;
+            text-align: center;
+        }
+        
+        .total-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 0.25rem;
+        }
+        
+        .total-price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--theme-color);
+        }
+        
+        /* Coupon Section */
+        .coupon-section {
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background: #f8fafc;
+            border-radius: 0.75rem;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .coupon-input-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .coupon-input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .coupon-btn {
+            padding: 0.75rem 1.5rem;
+            background: var(--theme-color);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .coupon-btn:hover {
+            background: #4c1d95;
+        }
+        
+        .coupon-success {
+            margin-top: 0.75rem;
+            padding: 0.75rem;
+            background: #d1fae5;
+            color: #065f46;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            display: none;
+        }
+        
+        .coupon-error {
+            margin-top: 0.75rem;
+            padding: 0.75rem;
+            background: #fee2e2;
+            color: #dc2626;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            display: none;
+        }
+
+        /* WhatsApp Button */
+        .whatsapp-section {
+            margin: 1rem 0;
+        }
+        
+        .whatsapp-btn {
+            width: 100%;
+            background: #25d366;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+        
+        .whatsapp-btn:hover {
+            background: #128c7e;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(37, 211, 102, 0.3);
+        }
+
+        /* Payment Methods */
+        .payment-section {
+            margin-top: 2rem;
+        }
+        
+        .payment-methods {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        
+        @media (max-width: 640px) {
+            .payment-methods {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .payment-method-btn {
+            padding: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.75rem;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .payment-method-btn:hover {
+            border-color: var(--theme-color);
+            background: var(--theme-light);
+        }
+        
+        .payment-method-btn.selected {
+            border-color: var(--theme-color);
+            background: var(--theme-light);
+            color: var(--theme-color);
+        }
+        
+        .payment-logo {
+            height: 24px;
+            object-fit: contain;
+        }
+        
+        .proceed-payment-btn {
+            width: 100%;
+            background: var(--theme-color);
+            color: white;
+            border: none;
+            padding: 1.25rem 2rem;
+            border-radius: 0.75rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .proceed-payment-btn:hover {
+            background: #4c1d95;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(90, 64, 153, 0.3);
+        }
+        
+        .proceed-payment-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Location Section */
+        .location-section {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 4rem 0;
+            margin-top: 2rem;
+        }
+
+        .location-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .location-info h3 {
+            font-size: 1.5rem;
+            color: #5A4099;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .location-address {
+            color: #374151;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .location-address i {
+            color: #5A4099;
+            margin-right: 0.5rem;
+        }
+
+        .contact-info p {
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .contact-info i {
+            color: #5A4099;
+            margin-right: 0.75rem;
+            width: 16px;
+        }
+
+        .contact-actions {
+            margin-top: 2rem;
+        }
+
+        .contact-actions h4 {
+            color: #5A4099;
+            margin-bottom: 1rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .whatsapp-contact-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            text-decoration: none;
+            padding: 0.875rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        .whatsapp-contact-btn:hover {
+            background: linear-gradient(135deg, #128C7E 0%, #075E54 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+            color: white;
+            text-decoration: none;
+        }
+
+        .whatsapp-contact-btn i {
+            font-size: 1.25rem;
+        }
+
+        .map-container {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            height: 350px;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        @media (max-width: 768px) {
+            .location-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .map-container {
+                height: 250px;
+            }
+
+            .location-section {
+                padding: 2rem 0;
+            }
+        }
+
+        /* Units Slider Section */
+        .other-units-section {
+            background: #ffffff;
+            padding: 4rem 0;
+            margin-top: 2rem;
+        }
+
+        .units-slider-container {
+            position: relative;
+            max-width: 100%;
+            overflow: hidden;
+            margin: 2rem 0;
+        }
+
+        .units-slider {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            gap: 1.5rem;
+        }
+
+        .unit-card {
+            flex: 0 0 300px;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .unit-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .unit-card-video {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: #f8fafc;
+        }
+
+        .unit-card-content {
+            padding: 1.5rem;
+        }
+
+        .unit-card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .unit-card-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #5A4099;
+            margin-bottom: 1rem;
+        }
+
+        .unit-card-features {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .unit-card-feature {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .unit-card-feature i {
+            color: #5A4099;
+        }
+
+        .book-unit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #5A4099 0%, #7C3AED 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .book-unit-btn:hover {
+            background: linear-gradient(135deg, #4C1D95 0%, #6B21A8 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(90, 64, 153, 0.3);
+        }
+
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #ffffff;
+            border: 2px solid #e5e7eb;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #5A4099;
+            transition: all 0.3s ease;
+            z-index: 10;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .slider-btn:hover {
+            background: #5A4099;
+            color: white;
+            border-color: #5A4099;
+            box-shadow: 0 6px 20px rgba(90, 64, 153, 0.3);
+        }
+
+        .prev-btn {
+            left: 10px;
+        }
+
+        .next-btn {
+            right: 10px;
+        }
+
+        .slider-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #d1d5db;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: #5A4099;
+            transform: scale(1.2);
+        }
+
+        @media (max-width: 768px) {
+            .unit-card {
+                flex: 0 0 280px;
+            }
+
+            .units-slider {
+                gap: 1rem;
+                padding: 0 1rem;
+            }
+
+            .slider-btn {
+                display: none;
+            }
+
+            .other-units-section {
+                padding: 2rem 0;
+            }
+
+            .units-slider-container {
+                overflow-x: auto;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+            }
+
+            .units-slider-container::-webkit-scrollbar {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .unit-card {
+                flex: 0 0 250px;
+            }
+
+            .units-slider {
+                gap: 0.75rem;
+            }
+        }
+
+        /* Edit Dates Functionality */
+        .date-with-edit {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .edit-date-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #f3f4f6;
+            border: 1px solid #d1d5db;
+            color: #5A4099;
+            padding: 0.375rem 0.75rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.875rem;
+        }
+
+        .edit-date-btn:hover {
+            background: #5A4099;
+            color: white;
+            border-color: #5A4099;
+        }
+
+        .edit-date-btn i {
+            font-size: 0.875rem;
+        }
+
+        /* Phone Number Edit Functionality */
+        .phone-with-edit {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .edit-phone-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #f3f4f6;
+            border: 1px solid #d1d5db;
+            color: #5A4099;
+            padding: 0.375rem 0.75rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.875rem;
+        }
+
+        .edit-phone-btn:hover {
+            background: #5A4099;
+            color: white;
+            border-color: #5A4099;
+        }
+
+        .edit-phone-btn i {
+            font-size: 0.875rem;
+        }
+
+        .phone-display {
+            direction: ltr !important;
+            text-align: left !important;
+        }
+
+        [dir="rtl"] .phone-display {
+            direction: ltr !important;
+            text-align: left !important;
+        }
+
+        /* Phone Editor Modal */
+        .phone-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .phone-input-group label {
+            font-weight: 600;
+            color: #374151;
+            font-size: 0.875rem;
+        }
+
+        .phone-input {
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 1rem;
+            direction: ltr;
+            text-align: left;
+        }
+
+        .phone-input:focus {
+            outline: none;
+            border-color: #5A4099;
+            box-shadow: 0 0 0 3px rgba(90, 64, 153, 0.1);
+        }
+
+        .phone-editor-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        @media (max-width: 768px) {
+            .phone-editor-actions {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+        }
+
+        /* Date Editor Modal */
+        .date-editor-modal {
+            background: #ffffff;
+            border-radius: 16px;
+            max-width: 500px;
+            width: 90vw;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .date-editor-content {
+            padding: 1.5rem;
+        }
+
+        .date-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .date-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .date-input-group label {
+            font-weight: 600;
+            color: #374151;
+            font-size: 0.875rem;
+        }
+
+        .date-input {
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+        }
+
+        .date-input:focus {
+            outline: none;
+            border-color: #5A4099;
+            box-shadow: 0 0 0 3px rgba(90, 64, 153, 0.1);
+        }
+
+        .price-preview {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .price-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .price-info:last-child {
+            margin-bottom: 0;
+            font-weight: 700;
+            color: #5A4099;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 0.5rem;
+        }
+
+        .date-editor-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        .cancel-btn, .update-dates-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .cancel-btn {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .cancel-btn:hover {
+            background: #e5e7eb;
+        }
+
+        .update-dates-btn {
+            background: linear-gradient(135deg, #5A4099 0%, #7C3AED 100%);
+            color: white;
+        }
+
+        .update-dates-btn:hover {
+            background: linear-gradient(135deg, #4C1D95 0%, #6B21A8 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(90, 64, 153, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .date-inputs {
+                grid-template-columns: 1fr;
+            }
+
+            .checkout-with-edit {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .date-editor-actions {
+                flex-direction: column;
+            }
+        }
+
+        /* Media Player Modal */
+        .media-modal {
+            background: #ffffff;
+            border-radius: 16px;
+            max-width: 90vw;
+            max-height: 90vh;
+            width: 800px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .media-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            background: #f8fafc;
+        }
+
+        .media-modal-title {
+            margin: 0;
+            color: #1f2937;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .media-modal-content {
+            padding: 0;
+        }
+
+        .media-display {
+            position: relative;
+            background: #000;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .media-item {
+            max-width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+        }
+
+        .media-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .media-control-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #5A4099;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.875rem;
+        }
+
+        .media-control-btn:hover {
+            background: #4C1D95;
+            transform: translateY(-2px);
+        }
+
+        .media-control-btn.muted {
+            background: #dc2626;
+        }
+
+        .media-thumbnails {
+            padding: 1rem;
+            background: #ffffff;
+        }
+
+        .thumbnail-container {
+            display: flex;
+            gap: 0.75rem;
+            overflow-x: auto;
+            padding: 0.5rem 0;
+        }
+
+        .thumbnail {
+            flex: 0 0 80px;
+            height: 60px;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .thumbnail:hover {
+            border-color: #5A4099;
+            transform: scale(1.05);
+        }
+
+        .thumbnail.active {
+            border-color: #5A4099;
+            box-shadow: 0 0 0 2px rgba(90, 64, 153, 0.3);
+        }
+
+        .thumbnail img,
+        .thumbnail video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .thumbnail .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 1.5rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .thumbnail {
+            position: relative;
+        }
+
+        @media (max-width: 768px) {
+            .media-modal {
+                width: 95vw;
+                height: 95vh;
+                max-height: none;
+            }
+
+            .media-controls {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+
+            .media-control-btn {
+                font-size: 0.75rem;
+                padding: 0.375rem 0.75rem;
+            }
+        }
+
+        /* Bank Transfer Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        
+        .modal {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .minimum-deposit-notice {
+            background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+            border: 1px solid #F59E0B;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #92400E;
+            font-weight: 600;
+        }
+
+        .minimum-deposit-notice i {
+            color: #F59E0B;
+            font-size: 1.125rem;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1f2937;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #6b7280;
+            cursor: pointer;
+            padding: 0.25rem;
+        }
+        
+        .bank-details {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .bank-detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .bank-detail-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .bank-detail-label {
+            font-weight: 600;
+            color: #374151;
+        }
+        
+        .bank-detail-value {
+            font-family: monospace;
+            color: #1f2937;
+            cursor: pointer;
+        }
+        
+        .copy-btn {
+            background: #f3f4f6;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            padding: 0.375rem 0.5rem;
+            margin-left: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #5A4099;
+            font-size: 0.875rem;
+            min-width: 32px;
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .copy-btn:hover {
+            background: #5A4099;
+            color: white;
+            border-color: #5A4099;
+        }
+
+        .copy-btn i {
+            font-size: 0.875rem;
+        }
+        
+        .file-upload-section {
+            margin-top: 1.5rem;
+        }
+        
+        .file-upload-area {
+            border: 2px dashed #d1d5db;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .file-upload-area:hover {
+            border-color: var(--theme-color);
+            background: var(--theme-light);
+        }
+        
+        .file-upload-area.dragover {
+            border-color: var(--theme-color);
+            background: var(--theme-light);
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .uploaded-files {
+            margin-top: 1rem;
+        }
+        
+        .uploaded-file {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem;
+            background: #f3f4f6;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .remove-file-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+        }
+
+        /* Policies Section */
+        .policies-section {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: #f8fafc;
+            border-radius: 0.75rem;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .policy-item {
+            margin-bottom: 1rem;
+        }
+        
+        .policy-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .policy-content {
+            font-size: 0.875rem;
+            color: #6b7280;
+            line-height: 1.5;
+        }
+        
+        .policy-highlight {
+            color: var(--theme-color);
+            font-weight: 600;
+        }
+        
+        /* Loading State */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .spinner {
+            display: inline-block;
+            width: 2rem;
+            height: 2rem;
+            border: 3px solid #f3f4f6;
+            border-top: 3px solid var(--theme-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Error State */
+        .error-message {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #b91c1c;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+            display: none;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #1f2937;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 4rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 0.5rem;
+            }
+            
+            .unit-info {
+                padding: 1.5rem;
+            }
+            
+            .reservation-summary {
+                padding: 1.5rem;
+                position: static;
+            }
+            
+            .main-content {
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="#main" class="skip-link">Skip to content</a>
+    
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="./Units Page.html" class="back-btn">
+                    <i class="fas fa-arrow-left" aria-hidden="true"></i>
+                    <span data-en="Back to Units" data-ar="العودة للوحدات">العودة للوحدات</span>
+                </a>
+                
+                <div class="header-actions">
+                    <div class="language-switcher">
+                        <button id="language-btn" class="language-btn" onclick="toggleLanguage()">
+                            <i class="fas fa-globe" aria-hidden="true"></i>
+                            <span id="current-lang">English</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main" class="container">
+        <!-- Loading State -->
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Loading reservation details...</p>
+        </div>
+        
+        <!-- Error Message -->
+        <div id="error-message" class="error-message">
+            <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
+            <span id="error-text">Unable to load reservation details. Please check the URL parameters.</span>
+        </div>
+        
+        <!-- Main Content Grid -->
+        <div id="main-content" class="main-content" style="display: none;">
+            <!-- Unit Details -->
+            <section class="unit-card">
+                <div class="unit-media">
+                    <video id="unit-video" class="unit-video" preload="metadata" muted loop playsinline aria-hidden="true">
+                        <source id="video-source" src="" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                
+                <div class="unit-info">
+                    <h1 id="unit-title" class="unit-title">Loading...</h1>
+                    
+                    <div class="unit-price">
+                        <span id="unit-price">0</span>
+                        <img src="./Units Page_files/Saudi_Riyal_Symbol.svg.png" alt="SAR" loading="lazy" class="currency-icon">
+                        <span class="text-sm text-gray-600">/ night</span>
+                    </div>
+                    
+                    <div id="unit-features" class="unit-features">
+                        <!-- Features will be populated by JavaScript -->
+                    </div>
+                    
+                    <div id="amenities" class="amenities">
+                        <h4>Key Features</h4>
+                        <div id="amenities-list" class="amenities-list">
+                            <!-- Amenities will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Reservation Summary -->
+            <aside class="reservation-summary">
+                <h2 class="summary-title">Reservation Summary</h2>
+                
+                <div class="summary-row">
+                    <span class="summary-label">Guest Name:</span>
+                    <span id="client-name" class="summary-value">-</span>
+                </div>
+                
+                <div class="summary-row">
+                    <span class="summary-label" data-en="Phone Number:" data-ar="رقم الهاتف:">رقم الهاتف:</span>
+                    <div class="phone-with-edit">
+                        <span id="phone-number" class="summary-value phone-display">-</span>
+                        <button class="edit-phone-btn" onclick="openPhoneEditor()">
+                            <i class="fas fa-edit" aria-hidden="true"></i>
+                            <span data-en="Edit" data-ar="تعديل">تعديل</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="summary-row">
+                    <span class="summary-label" data-en="Check-in:" data-ar="تاريخ الوصول:">تاريخ الوصول:</span>
+                    <div class="date-with-edit">
+                        <span id="start-date" class="summary-value">-</span>
+                        <button class="edit-date-btn" onclick="openCheckInEditor()">
+                            <i class="fas fa-edit" aria-hidden="true"></i>
+                            <span data-en="Edit" data-ar="تعديل">تعديل</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="summary-row">
+                    <span class="summary-label" data-en="Check-out:" data-ar="تاريخ المغادرة:">تاريخ المغادرة:</span>
+                    <div class="date-with-edit">
+                        <span id="end-date" class="summary-value">-</span>
+                        <button class="edit-date-btn" onclick="openCheckOutEditor()">
+                            <i class="fas fa-edit" aria-hidden="true"></i>
+                            <span data-en="Edit" data-ar="تعديل">تعديل</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="summary-row">
+                    <span class="summary-label">Duration:</span>
+                    <span id="duration" class="summary-value">- nights</span>
+                </div>
+                
+                <div class="summary-row">
+                    <span class="summary-label">Unit:</span>
+                    <span id="unit-name" class="summary-value">-</span>
+                </div>
+                
+                <div class="total-amount">
+                    <div class="total-label">Total Amount</div>
+                    <div class="total-price">
+                        <span id="total-amount">0</span>
+                        <img src="./Units Page_files/Saudi_Riyal_Symbol.svg.png" alt="SAR" loading="lazy" style="width: 1.5rem; height: 1.5rem; margin-left: 0.5rem;">
+                    </div>
+                </div>
+                
+                <!-- Coupon Section -->
+                <div class="coupon-section">
+                    <h4 style="margin-bottom: 1rem; color: #374151;">Have a Coupon Code?</h4>
+                    <div class="coupon-input-group">
+                        <input type="text" id="coupon-input" class="coupon-input" placeholder="Enter coupon code">
+                        <button id="apply-coupon-btn" class="coupon-btn">Apply</button>
+                    </div>
+                    <div id="coupon-success" class="coupon-success">
+                        <i class="fas fa-check-circle" aria-hidden="true"></i>
+                        <span id="coupon-success-text"></span>
+                    </div>
+                    <div id="coupon-error" class="coupon-error">
+                        <i class="fas fa-exclamation-circle" aria-hidden="true"></i>
+                        <span id="coupon-error-text"></span>
+                    </div>
+                </div>
+
+                <!-- WhatsApp Support -->
+                <div class="whatsapp-section">
+                    <a id="whatsapp-btn" class="whatsapp-btn" href="#" target="_blank">
+                        <i class="fab fa-whatsapp" aria-hidden="true"></i>
+                        <span data-en="Contact us on WhatsApp" data-ar="تحدث معنا عبر الواتساب">تحدث معنا عبر الواتساب</span>
+                    </a>
+                </div>
+
+                <!-- Payment Methods -->
+                <div class="payment-section">
+                    <h3 style="margin-bottom: 1rem; color: #374151;">Select Payment Method</h3>
+                    
+                    <div class="payment-methods">
+                        <button class="payment-method-btn" data-method="card">
+                            <i class="fas fa-credit-card" aria-hidden="true"></i>
+                            Credit/Debit Card
+                        </button>
+                        
+                        <button class="payment-method-btn" data-method="bank-transfer">
+                            <i class="fas fa-university" aria-hidden="true"></i>
+                            Bank Transfer
+                        </button>
+                        
+                        <button class="payment-method-btn" data-method="tappy">
+                            <img src="https://assets.stcpay.com.sa/stcpay/images/stcpay-logo.png" alt="Tappy" class="payment-logo">
+                            Tappy
+                        </button>
+                        
+                        <button class="payment-method-btn" data-method="tamara">
+                            <img src="https://cdn.tamara.co/assets/images/logo/tamara-logo-green.svg" alt="Tamara" class="payment-logo">
+                            Tamara
+                        </button>
+                    </div>
+                    
+                    <button id="proceed-payment-btn" class="proceed-payment-btn" disabled>
+                        <i class="fas fa-lock" aria-hidden="true"></i>
+                        Select Payment Method
+                    </button>
+                </div>
+
+                <!-- Policies Section -->
+                <div class="policies-section">
+                    <div class="policy-item">
+                        <div class="policy-title">
+                            <i class="fas fa-times-circle" aria-hidden="true" style="color: #ef4444;"></i>
+                            Cancellation Policy
+                        </div>
+                        <div class="policy-content">
+                            • <span class="policy-highlight">Free cancellation</span> up to 48 hours before check-in<br>
+                            • <span class="policy-highlight">50% refund</span> for cancellations 24-48 hours before check-in<br>
+                            • <span class="policy-highlight">No refund</span> for cancellations within 24 hours of check-in
+                        </div>
+                    </div>
+                    
+                    <div class="policy-item">
+                        <div class="policy-title">
+                            <i class="fas fa-undo" aria-hidden="true" style="color: #10b981;"></i>
+                            Refund Policy
+                        </div>
+                        <div class="policy-content">
+                            • Refunds will be processed within <span class="policy-highlight">5-7 business days</span><br>
+                            • Refunds will be credited to the original payment method<br>
+                            • Service fees are non-refundable for partial cancellations
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- Location Section -->
+    <section class="location-section">
+        <div class="container">
+            <h2 class="section-title">
+                <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                <span data-en="Our Location" data-ar="موقعنا">موقعنا</span>
+            </h2>
+            
+            <div class="location-content">
+                <div class="location-info">
+                    <h3>Aria Resorts</h3>
+                    <p class="location-address">
+                        <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                        Building 123, Road 456, Block 789<br>
+                        Manama, Kingdom of Bahrain
+                    </p>
+                    <div class="contact-info">
+                        <p><i class="fas fa-phone" aria-hidden="true"></i> +973 1234 5678</p>
+                        <p><i class="fas fa-envelope" aria-hidden="true"></i> info@ariaresorts.com</p>
+                    </div>
+                </div>
+                
+                <div class="map-container">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d57326.94241238279!2d50.5538!3d26.2285!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e49afa6bdaebfff%3A0x7e1a6b0c7d4c8a1b!2sManama%2C%20Bahrain!5e0!3m2!1sen!2sus!4v1635000000000!5m2!1sen!2sus"
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        title="Aria Resorts Location">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Other Units Slider -->
+    <section class="other-units-section">
+        <div class="container">
+            <h2 class="section-title">
+                <i class="fas fa-home" aria-hidden="true"></i>
+                <span data-en="Explore Other Units" data-ar="استكشف الوحدات الأخرى">استكشف الوحدات الأخرى</span>
+            </h2>
+            
+            <div class="units-slider-container">
+                <button class="slider-btn prev-btn" onclick="slideUnits('prev')">
+                    <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                </button>
+                
+                <div class="units-slider" id="units-slider">
+                    <!-- Units will be populated by JavaScript -->
+                </div>
+                
+                <button class="slider-btn next-btn" onclick="slideUnits('next')">
+                    <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                </button>
+            </div>
+            
+            <div class="slider-dots" id="slider-dots">
+                <!-- Dots will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Bank Transfer Modal -->
+    <div id="bank-transfer-modal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Bank Transfer Details</h3>
+                <button class="close-btn" onclick="closeBankTransferModal()">&times;</button>
+            </div>
+            
+            <div class="minimum-deposit-notice">
+                <i class="fas fa-info-circle" aria-hidden="true"></i>
+                <span data-en="Minimum deposit amount is 200 SAR" data-ar="الحد الأدنى لمبلغ الإيداع هو 200 ريال">الحد الأدنى لمبلغ الإيداع هو 200 ريال</span>
+            </div>
+            
+            <div class="bank-details">
+                <h4 style="margin-bottom: 1rem; color: #374151;">Transfer to the following account:</h4>
+                
+                <div class="bank-detail-row">
+                    <span class="bank-detail-label">Bank Name:</span>
+                    <span class="bank-detail-value">
+                        National Bank of Bahrain
+                    </span>
+                </div>
+                
+                <div class="bank-detail-row">
+                    <span class="bank-detail-label">Account Name:</span>
+                    <span class="bank-detail-value">
+                        Aria Resorts LLC
+                        <button class="copy-btn" onclick="copyToClipboard('Aria Resorts LLC')">
+                            <i class="fas fa-copy" aria-hidden="true"></i>
+                        </button>
+                    </span>
+                </div>
+                
+                <div class="bank-detail-row">
+                    <span class="bank-detail-label">Account Number:</span>
+                    <span class="bank-detail-value">
+                        0123456789012
+                        <button class="copy-btn" onclick="copyToClipboard('0123456789012')">
+                            <i class="fas fa-copy" aria-hidden="true"></i>
+                        </button>
+                    </span>
+                </div>
+                
+                <div class="bank-detail-row">
+                    <span class="bank-detail-label">IBAN:</span>
+                    <span class="bank-detail-value">
+                        BH29NBOB00001234567890
+                        <button class="copy-btn" onclick="copyToClipboard('BH29NBOB00001234567890')">
+                            <i class="fas fa-copy" aria-hidden="true"></i>
+                        </button>
+                    </span>
+                </div>
+                
+                <div class="bank-detail-row">
+                    <span class="bank-detail-label">Swift Code:</span>
+                    <span class="bank-detail-value">
+                        NBOBVBHB
+                    </span>
+                </div>
+                
+                <div class="bank-detail-row">
+                    <span class="bank-detail-label">Amount:</span>
+                    <span class="bank-detail-value" style="color: #5A4099; font-weight: 700;">
+                        <span id="transfer-amount">0</span> SAR
+                    </span>
+                </div>
+            </div>
+            
+            <div class="file-upload-section">
+                <h4 style="margin-bottom: 1rem; color: #374151;">Upload Transaction Proof</h4>
+                <p style="font-size: 0.875rem; color: #6b7280; margin-bottom: 1rem;">
+                    Please upload a photo or screenshot of your bank transfer receipt/confirmation.
+                </p>
+                
+                <div class="file-upload-area" onclick="document.getElementById('file-input').click()">
+                    <i class="fas fa-cloud-upload-alt" style="font-size: 2rem; color: #9ca3af; margin-bottom: 0.5rem;"></i>
+                    <p style="color: #6b7280; margin-bottom: 0.5rem;">Click to upload or drag and drop</p>
+                    <p style="font-size: 0.75rem; color: #9ca3af;">PNG, JPG, PDF up to 10MB</p>
+                    <input type="file" id="file-input" class="file-input" multiple accept="image/*,application/pdf">
+                </div>
+                
+                <div id="uploaded-files" class="uploaded-files"></div>
+            </div>
+            
+            <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                <button class="proceed-payment-btn" onclick="submitBankTransfer()" style="flex: 1;">
+                    <i class="fas fa-paper-plane" aria-hidden="true"></i>
+                    Submit Transfer Proof
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Media Player Modal -->
+    <div id="media-player-modal" class="modal-overlay" style="display: none;">
+        <div class="media-modal">
+            <div class="media-modal-header">
+                <h3 class="media-modal-title" data-en="Unit Gallery" data-ar="معرض الوحدة">معرض الوحدة</h3>
+                <button class="close-btn" onclick="closeMediaPlayer()">&times;</button>
+            </div>
+            
+            <div class="media-modal-content">
+                <div class="media-display">
+                    <video id="modal-video" class="media-item" style="display: none;" controls>
+                        <source id="modal-video-source" src="" type="video/mp4">
+                    </video>
+                    <img id="modal-image" class="media-item" style="display: none;" src="" alt="Unit Image">
+                </div>
+                
+                <div class="media-controls">
+                    <button id="mute-btn" class="media-control-btn" onclick="toggleMute()">
+                        <i class="fas fa-volume-up" aria-hidden="true"></i>
+                        <span data-en="Mute" data-ar="كتم الصوت">كتم الصوت</span>
+                    </button>
+                    <button id="play-pause-btn" class="media-control-btn" onclick="togglePlayPause()">
+                        <i class="fas fa-pause" aria-hidden="true"></i>
+                        <span data-en="Pause" data-ar="إيقاف مؤقت">إيقاف مؤقت</span>
+                    </button>
+                    <button class="media-control-btn" onclick="closeMediaPlayer()">
+                        <i class="fas fa-times" aria-hidden="true"></i>
+                        <span data-en="Close" data-ar="إغلاق">إغلاق</span>
+                    </button>
+                </div>
+                
+                <div class="media-thumbnails">
+                    <div class="thumbnail-container" id="media-thumbnails">
+                        <!-- Thumbnails will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Date Editor Modal -->
+    <div id="date-editor-modal" class="modal-overlay" style="display: none;">
+        <div class="date-editor-modal">
+            <div class="modal-header">
+                <h3 class="modal-title" data-en="Edit Reservation Dates" data-ar="تعديل تواريخ الحجز">تعديل تواريخ الحجز</h3>
+                <button class="close-btn" onclick="closeDateEditor()">&times;</button>
+            </div>
+            
+            <div class="date-editor-content">
+                <div class="date-inputs">
+                    <div class="date-input-group">
+                        <label data-en="Check-in Date" data-ar="تاريخ الوصول">تاريخ الوصول</label>
+                        <input type="date" id="new-checkin-date" class="date-input">
+                    </div>
+                    <div class="date-input-group">
+                        <label data-en="Check-out Date" data-ar="تاريخ المغادرة">تاريخ المغادرة</label>
+                        <input type="date" id="new-checkout-date" class="date-input">
+                    </div>
+                </div>
+                
+                <div class="price-preview">
+                    <div class="price-info">
+                        <span data-en="Duration:" data-ar="المدة:">المدة:</span>
+                        <span id="preview-duration">0 nights</span>
+                    </div>
+                    <div class="price-info">
+                        <span data-en="New Total:" data-ar="المجموع الجديد:">المجموع الجديد:</span>
+                        <span id="preview-total">0 SAR</span>
+                    </div>
+                </div>
+                
+                <div class="date-editor-actions">
+                    <button class="cancel-btn" onclick="closeDateEditor()">
+                        <span data-en="Cancel" data-ar="إلغاء">إلغاء</span>
+                    </button>
+                    <button class="update-dates-btn" onclick="updateDates()">
+                        <span data-en="Update Dates" data-ar="تحديث التواريخ">تحديث التواريخ</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Phone Editor Modal -->
+    <div id="phone-editor-modal" class="modal-overlay" style="display: none;">
+        <div class="date-editor-modal">
+            <div class="modal-header">
+                <h3 class="modal-title" data-en="Edit Phone Number" data-ar="تعديل رقم الهاتف">تعديل رقم الهاتف</h3>
+                <button class="close-btn" onclick="closePhoneEditor()">&times;</button>
+            </div>
+            
+            <div class="date-editor-content">
+                <div class="phone-input-group">
+                    <label data-en="Phone Number" data-ar="رقم الهاتف">رقم الهاتف</label>
+                    <input type="tel" id="new-phone-number" class="phone-input" placeholder="+966 50 123 4567" dir="ltr">
+                </div>
+                
+                <div class="phone-editor-actions">
+                    <button class="cancel-btn" onclick="closePhoneEditor()">
+                        <span data-en="Cancel" data-ar="إلغاء">إلغاء</span>
+                    </button>
+                    <button class="update-phone-btn" onclick="updatePhoneNumber()">
+                        <span data-en="Update Phone" data-ar="تحديث الهاتف">تحديث الهاتف</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Aria Resorts. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Unit data (this would typically come from an API)
+        const unitsData = {
+            1: {
+                name: "Chalet 1",
+                price: 500,
+                guests: 25,
+                bedrooms: "",
+                bathrooms: 3,
+                video: "https://reservations.runasp.net/uploads/units/7/1_20251026073452219_d563a88f.mp4",
+                images: [
+                    "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800",
+                    "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800",
+                    "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=800",
+                    "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800",
+                    "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800",
+                    "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800",
+                    "https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=800",
+                    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800",
+                    "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800",
+                    "https://images.unsplash.com/photo-1520637836862-4d197d17c99a?w=800"
+                ],
+                amenities: ["Speaker with lights", "Free Wi-Fi", "Parking inside", "Smoking areas"]
+            },
+            2: {
+                name: "Chalet 2", 
+                price: 500,
+                guests: 25,
+                bedrooms: "",
+                bathrooms: 3,
+                video: "https://reservations.runasp.net/uploads/units/8/1_20251026073558894_54082e79.mp4",
+                images: [
+                    "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800",
+                    "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800",
+                    "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=800",
+                    "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800",
+                    "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800",
+                    "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800",
+                    "https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=800",
+                    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800",
+                    "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800",
+                    "https://images.unsplash.com/photo-1520637836862-4d197d17c99a?w=800"
+                ],
+                amenities: ["Speaker with lights", "Free Wi-Fi", "Parking inside", "Smoking areas"]
+            },
+            3: {
+                name: "Chalet 3",
+                price: 500,
+                guests: 25,
+                bedrooms: "",
+                bathrooms: 3,
+                video: "https://reservations.runasp.net/uploads/units/9/3_20251026073800773_8bd9e872.mp4",
+                images: [
+                    "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800",
+                    "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800",
+                    "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=800",
+                    "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800",
+                    "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800",
+                    "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800",
+                    "https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=800",
+                    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800",
+                    "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800",
+                    "https://images.unsplash.com/photo-1520637836862-4d197d17c99a?w=800"
+                ],
+                amenities: []
+            },
+            4: {
+                name: "Chalet 4",
+                price: 1000,
+                guests: 30,
+                bedrooms: "",
+                bathrooms: 3,
+                video: "https://reservations.runasp.net/uploads/units/10/3_20251026073659339_3c338b27.mp4",
+                images: [
+                    "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800",
+                    "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800",
+                    "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=800",
+                    "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800",
+                    "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800",
+                    "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800",
+                    "https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=800",
+                    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800",
+                    "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800",
+                    "https://images.unsplash.com/photo-1520637836862-4d197d17c99a?w=800"
+                ],
+                amenities: ["Speaker with lights", "Free Wi-Fi", "Water games", "Parking inside", "Smoking areas"]
+            },
+            5: {
+                name: "Chalet 5",
+                price: 1000,
+                guests: 30,
+                bedrooms: "",
+                bathrooms: 3,
+                video: "https://reservations.runasp.net/uploads/units/11/3_20251026073859032_e1734f94.mp4",
+                images: [
+                    "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800",
+                    "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800",
+                    "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=800",
+                    "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800",
+                    "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800",
+                    "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800",
+                    "https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=800",
+                    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800",
+                    "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800",
+                    "https://images.unsplash.com/photo-1520637836862-4d197d17c99a?w=800"
+                ],
+                amenities: ["Speaker with lights", "Free Wi-Fi", "Water games", "Parking inside", "Smoking areas"]
+            },
+            6: {
+                name: "Chalet 6",
+                price: 500,
+                guests: 25,
+                bedrooms: "",
+                bathrooms: 3,
+                video: "https://reservations.runasp.net/uploads/units/12/3_20251026074150263_d23942f0.mp4",
+                images: [
+                    "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800",
+                    "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800",
+                    "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=800",
+                    "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800",
+                    "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800",
+                    "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800",
+                    "https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=800",
+                    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800",
+                    "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800",
+                    "https://images.unsplash.com/photo-1520637836862-4d197d17c99a?w=800"
+                ],
+                amenities: ["Speaker with lights", "Free Wi-Fi", "Parking inside", "External annex", "Smoking areas"]
+            },
+            7: {
+                name: "Chalet 7",
+                price: 500,
+                guests: 25,
+                bedrooms: "",
+                bathrooms: 3,
+                video: "https://reservations.runasp.net/uploads/units/13/3_20251026074459448_2f094620.mp4",
+                images: [
+                    "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800",
+                    "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800",
+                    "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=800",
+                    "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800",
+                    "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800",
+                    "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800",
+                    "https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=800",
+                    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800",
+                    "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800",
+                    "https://images.unsplash.com/photo-1520637836862-4d197d17c99a?w=800"
+                ],
+                amenities: ["Speaker with lights", "Free Wi-Fi", "Parking inside", "External annex", "Smoking areas"]
+            },
+            8: {
+                name: "Chalet 8",
+                price: 500,
+                guests: 25,
+                bedrooms: "",
+                bathrooms: 3,
+                video: "https://reservations.runasp.net/uploads/units/14/3_20251026074625544_6719bbee.mp4",
+                images: [
+                    "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800",
+                    "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800",
+                    "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=800",
+                    "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800",
+                    "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800",
+                    "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800",
+                    "https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=800",
+                    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800",
+                    "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800",
+                    "https://images.unsplash.com/photo-1520637836862-4d197d17c99a?w=800"
+                ],
+                amenities: ["Speaker with lights", "Free Wi-Fi", "Water games", "Parking inside", "External annex", "Smoking areas"]
+            }
+        };
+
+        // Coupon codes
+        const validCoupons = {
+            'WELCOME10': { discount: 10, type: 'percentage', description: '10% off your first booking' },
+            'SAVE50': { discount: 50, type: 'fixed', description: '50 SAR discount' },
+            'LUXURY20': { discount: 20, type: 'percentage', description: '20% off luxury chalets' },
+            'NEWUSER': { discount: 15, type: 'percentage', description: '15% off for new customers' }
+        };
+
+        // Global variables
+        let selectedPaymentMethod = null;
+        let appliedCoupon = null;
+        let originalTotalAmount = 0;
+        let uploadedFiles = [];
+        let currentLanguage = 'ar'; // Default to Arabic
+
+        // Language translations
+        const translations = {
+            en: {
+                'page-title': 'Reservation Details',
+                'guest-information': 'Guest Information',
+                'client-name-label': 'Guest Name',
+                'phone-number-label': 'Phone Number',
+                'dates-label': 'Reservation Dates',
+                'start-date-label': 'Check-in',
+                'end-date-label': 'Check-out',
+                'duration-label': 'Duration',
+                'unit-label': 'Selected Unit',
+                'total-amount-label': 'Total Amount',
+                'coupon-title': 'Have a Coupon?',
+                'apply-coupon': 'Apply Coupon',
+                'payment-methods': 'Payment Methods',
+                'proceed-payment': 'Proceed with Payment',
+                'policies-title': 'Cancellation & Refund Policy',
+                'location-title': 'Our Location',
+                'other-units-title': 'Explore Other Units',
+                'contact-us': 'Contact Us',
+                'whatsapp-text': 'Chat with us on WhatsApp'
+            },
+            ar: {
+                'page-title': 'تفاصيل الحجز',
+                'guest-information': 'معلومات الضيف',
+                'client-name-label': 'اسم الضيف',
+                'phone-number-label': 'رقم الهاتف',
+                'dates-label': 'تواريخ الحجز',
+                'start-date-label': 'تاريخ الوصول',
+                'end-date-label': 'تاريخ المغادرة',
+                'duration-label': 'المدة',
+                'unit-label': 'الوحدة المختارة',
+                'total-amount-label': 'المبلغ الإجمالي',
+                'coupon-title': 'لديك كوبون؟',
+                'apply-coupon': 'تطبيق الكوبون',
+                'payment-methods': 'طرق الدفع',
+                'proceed-payment': 'متابعة الدفع',
+                'policies-title': 'سياسة الإلغاء والاسترداد',
+                'location-title': 'موقعنا',
+                'other-units-title': 'استكشف الوحدات الأخرى',
+                'contact-us': 'اتصل بنا',
+                'whatsapp-text': 'تحدث معنا عبر الواتساب'
+            }
+        };
+
+        // Language Functions
+        function toggleLanguage() {
+            currentLanguage = currentLanguage === 'en' ? 'ar' : 'en';
+            updateLanguage();
+        }
+
+        function updateLanguage() {
+            // Update document direction
+            document.documentElement.dir = currentLanguage === 'ar' ? 'rtl' : 'ltr';
+            document.documentElement.lang = currentLanguage;
+            
+            // Update language button
+            document.getElementById('current-lang').textContent = currentLanguage === 'en' ? 'العربية' : 'English';
+            
+            // Update all translatable elements
+            document.querySelectorAll('[data-en][data-ar]').forEach(element => {
+                element.textContent = currentLanguage === 'en' ? element.getAttribute('data-en') : element.getAttribute('data-ar');
+            });
+
+            // Update page title
+            document.title = translations[currentLanguage]['page-title'] + ' — Aria Resorts';
+        }
+
+        // URL Parameter Parsing
+        function getURLParameters() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return {
+                clientName: urlParams.get('clientName') || urlParams.get('client_name') || urlParams.get('name'),
+                phoneNumber: urlParams.get('phoneNumber') || urlParams.get('phone_number') || urlParams.get('phone'),
+                startDate: urlParams.get('startDate') || urlParams.get('start_date') || urlParams.get('checkin'),
+                endDate: urlParams.get('endDate') || urlParams.get('end_date') || urlParams.get('checkout'),
+                unitNumber: urlParams.get('unitNumber') || urlParams.get('unit_number') || urlParams.get('unit')
+            };
+        }
+
+        // Date Formatting
+        function formatDate(dateString) {
+            try {
+                const date = new Date(dateString);
+                return date.toLocaleDateString('en-US', {
+                    weekday: 'short',
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                });
+            } catch (error) {
+                return dateString;
+            }
+        }
+
+        // Calculate Duration
+        function calculateDuration(startDate, endDate) {
+            try {
+                const start = new Date(startDate);
+                const end = new Date(endDate);
+                const diffTime = Math.abs(end - start);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                return diffDays;
+            } catch (error) {
+                return 1;
+            }
+        }
+
+        // Populate Unit Details
+        function populateUnitDetails(unitData) {
+            document.getElementById('unit-title').textContent = unitData.name;
+            document.getElementById('unit-price').textContent = unitData.price;
+            
+            // Set video source and make it clickable
+            const videoSource = document.getElementById('video-source');
+            const video = document.getElementById('unit-video');
+            videoSource.src = unitData.video;
+            video.load();
+            
+            // Add click handler to open media player
+            video.addEventListener('click', () => {
+                openMediaPlayer(unitData);
+            });
+            
+            // Add visual indicator that video is clickable
+            video.style.cursor = 'pointer';
+            video.title = currentLanguage === 'en' ? 'Click to open gallery' : 'انقر لفتح المعرض';
+
+            // Populate features
+            const featuresContainer = document.getElementById('unit-features');
+            featuresContainer.innerHTML = `
+                <div class="feature">
+                    <i class="fa-solid fa-users" aria-hidden="true"></i>
+                    <span>${unitData.guests} ${currentLanguage === 'en' ? 'Guests' : 'ضيف'}</span>
+                </div>
+                <div class="feature">
+                    <i class="fa-solid fa-bed" aria-hidden="true"></i>
+                    <span>${unitData.bedrooms || ''} ${currentLanguage === 'en' ? 'Bedrooms' : 'غرفة نوم'}</span>
+                </div>
+                <div class="feature">
+                    <i class="fa-solid fa-toilet" aria-hidden="true"></i>
+                    <span>${unitData.bathrooms} ${currentLanguage === 'en' ? 'Bathrooms' : 'حمام'}</span>
+                </div>
+            `;
+
+            // Populate amenities
+            const amenitiesContainer = document.getElementById('amenities-list');
+            if (unitData.amenities && unitData.amenities.length > 0) {
+                amenitiesContainer.innerHTML = unitData.amenities
+                    .map(amenity => `<span class="amenity-tag">${amenity}</span>`)
+                    .join('');
+                document.getElementById('amenities').style.display = 'block';
+            } else {
+                document.getElementById('amenities').style.display = 'none';
+            }
+        }
+
+        // Media Player Functions
+        let currentMediaIndex = 0;
+        let currentUnitData = null;
+
+        function openMediaPlayer(unitData) {
+            currentUnitData = unitData;
+            currentMediaIndex = 0; // Start with video
+            
+            const modal = document.getElementById('media-player-modal');
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            
+            populateMediaThumbnails();
+            displayMedia(0);
+        }
+
+        function closeMediaPlayer() {
+            const modal = document.getElementById('media-player-modal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            
+            // Pause video if playing
+            const video = document.getElementById('modal-video');
+            video.pause();
+        }
+
+        function populateMediaThumbnails() {
+            const container = document.getElementById('media-thumbnails');
+            container.innerHTML = '';
+            
+            // Add video thumbnail first
+            const videoThumb = document.createElement('div');
+            videoThumb.className = 'thumbnail active';
+            videoThumb.onclick = () => displayMedia(0);
+            videoThumb.innerHTML = `
+                <video muted>
+                    <source src="${currentUnitData.video}" type="video/mp4">
+                </video>
+                <div class="play-icon">
+                    <i class="fas fa-play" aria-hidden="true"></i>
+                </div>
+            `;
+            container.appendChild(videoThumb);
+            
+            // Add image thumbnails
+            currentUnitData.images.forEach((image, index) => {
+                const imgThumb = document.createElement('div');
+                imgThumb.className = 'thumbnail';
+                imgThumb.onclick = () => displayMedia(index + 1);
+                imgThumb.innerHTML = `<img src="${image}" alt="Unit Image ${index + 1}">`;
+                container.appendChild(imgThumb);
+            });
+        }
+
+        function displayMedia(index) {
+            currentMediaIndex = index;
+            
+            const video = document.getElementById('modal-video');
+            const image = document.getElementById('modal-image');
+            const videoSource = document.getElementById('modal-video-source');
+            
+            // Update thumbnail active state
+            document.querySelectorAll('.thumbnail').forEach((thumb, i) => {
+                thumb.classList.toggle('active', i === index);
+            });
+            
+            if (index === 0) {
+                // Show video
+                videoSource.src = currentUnitData.video;
+                video.load();
+                video.style.display = 'block';
+                image.style.display = 'none';
+                
+                // Update controls for video
+                updateMediaControls(true);
+            } else {
+                // Show image
+                image.src = currentUnitData.images[index - 1];
+                image.style.display = 'block';
+                video.style.display = 'none';
+                video.pause();
+                
+                // Update controls for image
+                updateMediaControls(false);
+            }
+        }
+
+        function updateMediaControls(isVideo) {
+            const muteBtn = document.getElementById('mute-btn');
+            const playPauseBtn = document.getElementById('play-pause-btn');
+            
+            if (isVideo) {
+                muteBtn.style.display = 'flex';
+                playPauseBtn.style.display = 'flex';
+            } else {
+                muteBtn.style.display = 'none';
+                playPauseBtn.style.display = 'none';
+            }
+        }
+
+        function toggleMute() {
+            const video = document.getElementById('modal-video');
+            const muteBtn = document.getElementById('mute-btn');
+            const icon = muteBtn.querySelector('i');
+            const text = muteBtn.querySelector('span');
+            
+            video.muted = !video.muted;
+            
+            if (video.muted) {
+                icon.className = 'fas fa-volume-mute';
+                text.textContent = currentLanguage === 'en' ? 'Unmute' : 'إلغاء كتم الصوت';
+                muteBtn.classList.add('muted');
+            } else {
+                icon.className = 'fas fa-volume-up';
+                text.textContent = currentLanguage === 'en' ? 'Mute' : 'كتم الصوت';
+                muteBtn.classList.remove('muted');
+            }
+        }
+
+        function togglePlayPause() {
+            const video = document.getElementById('modal-video');
+            const playPauseBtn = document.getElementById('play-pause-btn');
+            const icon = playPauseBtn.querySelector('i');
+            const text = playPauseBtn.querySelector('span');
+            
+            if (video.paused) {
+                video.play();
+                icon.className = 'fas fa-pause';
+                text.textContent = currentLanguage === 'en' ? 'Pause' : 'إيقاف مؤقت';
+            } else {
+                video.pause();
+                icon.className = 'fas fa-play';
+                text.textContent = currentLanguage === 'en' ? 'Play' : 'تشغيل';
+            }
+        }
+
+        // Populate Reservation Summary
+        function populateReservationSummary(params, unitData) {
+            document.getElementById('client-name').textContent = params.clientName || 'Not provided';
+            document.getElementById('phone-number').textContent = params.phoneNumber || 'Not provided';
+            document.getElementById('start-date').textContent = formatDate(params.startDate) || 'Not provided';
+            document.getElementById('end-date').textContent = formatDate(params.endDate) || 'Not provided';
+            document.getElementById('unit-name').textContent = unitData.name;
+
+            const duration = calculateDuration(params.startDate, params.endDate);
+            document.getElementById('duration').textContent = `${duration} night${duration !== 1 ? 's' : ''}`;
+
+            originalTotalAmount = unitData.price * duration;
+            updateTotalAmount();
+            
+            // Setup WhatsApp link
+            setupWhatsAppLink(params, unitData);
+        }
+
+        // Update Total Amount
+        function updateTotalAmount() {
+            let finalAmount = originalTotalAmount;
+            
+            if (appliedCoupon) {
+                if (appliedCoupon.type === 'percentage') {
+                    finalAmount = originalTotalAmount * (1 - appliedCoupon.discount / 100);
+                } else {
+                    finalAmount = Math.max(0, originalTotalAmount - appliedCoupon.discount);
+                }
+            }
+            
+            document.getElementById('total-amount').textContent = Math.round(finalAmount).toLocaleString();
+            document.getElementById('transfer-amount').textContent = Math.round(finalAmount).toLocaleString();
+        }
+
+        // Setup WhatsApp Link
+        function setupWhatsAppLink(params, unitData) {
+            const message = `Hello! I'd like to make a reservation:
+            
+📅 Guest: ${params.clientName}
+📞 Phone: ${params.phoneNumber}
+🏠 Unit: ${unitData.name}
+📆 Check-in: ${formatDate(params.startDate)}
+📆 Check-out: ${formatDate(params.endDate)}
+💰 Total: ${document.getElementById('total-amount').textContent} SAR
+
+Could you please help me complete this booking?`;
+
+            const whatsappNumber = "+973123456789"; // Replace with actual WhatsApp number
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/${whatsappNumber.replace('+', '')}?text=${encodedMessage}`;
+            
+            document.getElementById('whatsapp-btn').href = whatsappUrl;
+        }
+
+        // Coupon Functions
+        function applyCoupon() {
+            const couponCode = document.getElementById('coupon-input').value.trim().toUpperCase();
+            const successDiv = document.getElementById('coupon-success');
+            const errorDiv = document.getElementById('coupon-error');
+            
+            // Hide previous messages
+            successDiv.style.display = 'none';
+            errorDiv.style.display = 'none';
+            
+            if (!couponCode) {
+                showCouponError('Please enter a coupon code');
+                return;
+            }
+            
+            if (appliedCoupon && appliedCoupon.code === couponCode) {
+                showCouponError('This coupon is already applied');
+                return;
+            }
+            
+            if (validCoupons[couponCode]) {
+                appliedCoupon = { ...validCoupons[couponCode], code: couponCode };
+                updateTotalAmount();
+                
+                let savingsText = '';
+                if (appliedCoupon.type === 'percentage') {
+                    const savings = Math.round(originalTotalAmount * appliedCoupon.discount / 100);
+                    savingsText = `You saved ${savings} SAR (${appliedCoupon.discount}%)`;
+                } else {
+                    savingsText = `You saved ${appliedCoupon.discount} SAR`;
+                }
+                
+                showCouponSuccess(`${appliedCoupon.description} - ${savingsText}`);
+                document.getElementById('coupon-input').disabled = true;
+                document.getElementById('apply-coupon-btn').textContent = 'Applied';
+                document.getElementById('apply-coupon-btn').disabled = true;
+            } else {
+                showCouponError('Invalid coupon code');
+            }
+        }
+
+        function showCouponSuccess(message) {
+            document.getElementById('coupon-success-text').textContent = message;
+            document.getElementById('coupon-success').style.display = 'block';
+        }
+
+        function showCouponError(message) {
+            document.getElementById('coupon-error-text').textContent = message;
+            document.getElementById('coupon-error').style.display = 'block';
+        }
+
+        // Payment Method Selection
+        function selectPaymentMethod(method) {
+            selectedPaymentMethod = method;
+            
+            // Update UI
+            document.querySelectorAll('.payment-method-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            document.querySelector(`[data-method="${method}"]`).classList.add('selected');
+            
+            const proceedBtn = document.getElementById('proceed-payment-btn');
+            proceedBtn.disabled = false;
+            
+            switch(method) {
+                case 'card':
+                    proceedBtn.innerHTML = '<i class="fas fa-credit-card" aria-hidden="true"></i> Pay with Card';
+                    break;
+                case 'bank-transfer':
+                    proceedBtn.innerHTML = '<i class="fas fa-university" aria-hidden="true"></i> Proceed with Bank Transfer';
+                    break;
+                case 'tappy':
+                    proceedBtn.innerHTML = '<i class="fas fa-mobile-alt" aria-hidden="true"></i> Pay with Tappy';
+                    break;
+                case 'tamara':
+                    proceedBtn.innerHTML = '<i class="fas fa-calendar-alt" aria-hidden="true"></i> Pay with Tamara';
+                    break;
+            }
+        }
+
+        // Payment Processing
+        function processPayment() {
+            if (!selectedPaymentMethod) {
+                alert('Please select a payment method');
+                return;
+            }
+
+            const proceedBtn = document.getElementById('proceed-payment-btn');
+            const originalText = proceedBtn.innerHTML;
+
+            switch(selectedPaymentMethod) {
+                case 'card':
+                    proceedBtn.disabled = true;
+                    proceedBtn.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Processing...';
+                    
+                    setTimeout(() => {
+                        alert('Card payment integration would be implemented here!');
+                        proceedBtn.disabled = false;
+                        proceedBtn.innerHTML = originalText;
+                    }, 2000);
+                    break;
+                    
+                case 'bank-transfer':
+                    showBankTransferModal();
+                    break;
+                    
+                case 'tappy':
+                    proceedBtn.disabled = true;
+                    proceedBtn.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Redirecting...';
+                    
+                    setTimeout(() => {
+                        alert('Tappy payment integration would be implemented here!');
+                        proceedBtn.disabled = false;
+                        proceedBtn.innerHTML = originalText;
+                    }, 2000);
+                    break;
+                    
+                case 'tamara':
+                    proceedBtn.disabled = true;
+                    proceedBtn.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Redirecting...';
+                    
+                    setTimeout(() => {
+                        alert('Tamara payment integration would be implemented here!');
+                        proceedBtn.disabled = false;
+                        proceedBtn.innerHTML = originalText;
+                    }, 2000);
+                    break;
+            }
+        }
+
+        // Bank Transfer Modal Functions
+        function showBankTransferModal() {
+            document.getElementById('bank-transfer-modal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeBankTransferModal() {
+            document.getElementById('bank-transfer-modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                // Create temporary feedback
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                btn.style.background = '#10b981';
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '';
+                }, 1500);
+            });
+        }
+
+        function copyTransferAmount() {
+            const amount = document.getElementById('transfer-amount').textContent;
+            copyToClipboard(amount);
+        }
+
+        // File Upload Functions
+        function handleFileUpload(files) {
+            const maxSize = 10 * 1024 * 1024; // 10MB
+            const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg', 'application/pdf'];
+            
+            Array.from(files).forEach(file => {
+                if (file.size > maxSize) {
+                    alert(`File ${file.name} is too large. Maximum size is 10MB.`);
+                    return;
+                }
+                
+                if (!allowedTypes.includes(file.type)) {
+                    alert(`File ${file.name} is not a supported format. Please upload PNG, JPG, or PDF files.`);
+                    return;
+                }
+                
+                uploadedFiles.push(file);
+                displayUploadedFile(file);
+            });
+        }
+
+        function displayUploadedFile(file) {
+            const container = document.getElementById('uploaded-files');
+            const fileDiv = document.createElement('div');
+            fileDiv.className = 'uploaded-file';
+            
+            const fileIcon = file.type.startsWith('image/') ? 'fa-image' : 'fa-file-pdf';
+            
+            fileDiv.innerHTML = `
+                <div class="file-info">
+                    <i class="fas ${fileIcon}" aria-hidden="true"></i>
+                    <span>${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)</span>
+                </div>
+                <button class="remove-file-btn" onclick="removeFile('${file.name}')">Remove</button>
+            `;
+            
+            container.appendChild(fileDiv);
+        }
+
+        function removeFile(fileName) {
+            uploadedFiles = uploadedFiles.filter(file => file.name !== fileName);
+            
+            const container = document.getElementById('uploaded-files');
+            const fileElements = container.querySelectorAll('.uploaded-file');
+            
+            fileElements.forEach(element => {
+                if (element.textContent.includes(fileName)) {
+                    element.remove();
+                }
+            });
+        }
+
+        function submitBankTransfer() {
+            if (uploadedFiles.length === 0) {
+                alert('Please upload at least one transaction proof file.');
+                return;
+            }
+
+            const submitBtn = event.target;
+            const originalText = submitBtn.innerHTML;
+            
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Submitting...';
+
+            // Simulate submission
+            setTimeout(() => {
+                alert(`Bank transfer submitted successfully!\n\nFiles uploaded: ${uploadedFiles.length}\nOur team will verify your payment within 24 hours and confirm your reservation.`);
+                
+                closeBankTransferModal();
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            }, 2000);
+        }
+
+        // Initialize Page
+        function initializePage() {
+            const loading = document.getElementById('loading');
+            const errorMessage = document.getElementById('error-message');
+            const mainContent = document.getElementById('main-content');
+
+            // Show loading
+            loading.style.display = 'block';
+
+            // Get URL parameters
+            const params = getURLParameters();
+
+            // Validate required parameters
+            if (!params.unitNumber || !unitsData[params.unitNumber]) {
+                loading.style.display = 'none';
+                document.getElementById('error-text').textContent = 
+                    `Unit number "${params.unitNumber || 'not provided'}" is invalid. Please select a valid unit.`;
+                errorMessage.style.display = 'block';
+                return;
+            }
+
+            if (!params.clientName || !params.phoneNumber || !params.startDate || !params.endDate) {
+                loading.style.display = 'none';
+                document.getElementById('error-text').textContent = 
+                    'Missing required reservation information. Please ensure all fields are provided.';
+                errorMessage.style.display = 'block';
+                return;
+            }
+
+            // Get unit data
+            const unitData = unitsData[params.unitNumber];
+
+            // Populate page content
+            try {
+                populateUnitDetails(unitData);
+                populateReservationSummary(params, unitData);
+                populateUnitsSlider(params.unitNumber);
+
+                // Update page title
+                document.title = `${unitData.name} Reservation — Aria Resorts`;
+
+                // Show main content
+                loading.style.display = 'none';
+                mainContent.style.display = 'grid';
+
+            } catch (error) {
+                loading.style.display = 'none';
+                document.getElementById('error-text').textContent = 
+                    'An error occurred while loading the reservation details. Please try again.';
+                errorMessage.style.display = 'block';
+                console.error('Error initializing page:', error);
+            }
+        }
+
+        // Units Slider Functions
+        let currentSlide = 0;
+        let otherUnits = [];
+        let autoSlideInterval;
+
+        function populateUnitsSlider(currentUnitNumber) {
+            // Get all units except the current one
+            otherUnits = Object.keys(unitsData)
+                .filter(unitNumber => unitNumber !== currentUnitNumber)
+                .map(unitNumber => ({
+                    number: unitNumber,
+                    ...unitsData[unitNumber]
+                }));
+
+            const slider = document.getElementById('units-slider');
+            const dotsContainer = document.getElementById('slider-dots');
+
+            // Clear existing content
+            slider.innerHTML = '';
+            dotsContainer.innerHTML = '';
+
+            // Populate slider with units
+            otherUnits.forEach((unit, index) => {
+                const unitCard = createUnitCard(unit);
+                slider.appendChild(unitCard);
+
+                // Create dot for each unit
+                const dot = document.createElement('div');
+                dot.className = `dot ${index === 0 ? 'active' : ''}`;
+                dot.onclick = () => goToSlide(index);
+                dotsContainer.appendChild(dot);
+            });
+
+            // Initialize slider position
+            currentSlide = 0;
+            updateSliderPosition();
+            
+            // Start auto-slide
+            startAutoSlide();
+        }
+
+        function startAutoSlide() {
+            // Clear existing interval
+            if (autoSlideInterval) {
+                clearInterval(autoSlideInterval);
+            }
+            
+            // Start auto-slide every 4 seconds with infinite scrolling
+            autoSlideInterval = setInterval(() => {
+                slideUnits('next');
+            }, 4000);
+        }
+
+        function stopAutoSlide() {
+            if (autoSlideInterval) {
+                clearInterval(autoSlideInterval);
+            }
+        }
+
+        function resumeAutoSlide() {
+            setTimeout(() => {
+                startAutoSlide();
+            }, 3000); // Resume after 3 seconds
+        }
+
+        function createUnitCard(unit) {
+            const card = document.createElement('div');
+            card.className = 'unit-card';
+
+            card.innerHTML = `
+                <video class="unit-card-video" muted loop preload="metadata">
+                    <source src="${unit.video}" type="video/mp4">
+                </video>
+                <div class="unit-card-content">
+                    <h3 class="unit-card-title">${unit.name}</h3>
+                    <div class="unit-card-price">${unit.price} SAR/night</div>
+                    <div class="unit-card-features">
+                        <div class="unit-card-feature">
+                            <i class="fas fa-users" aria-hidden="true"></i>
+                            <span>${unit.guests}</span>
+                        </div>
+                        <div class="unit-card-feature">
+                            <i class="fas fa-toilet" aria-hidden="true"></i>
+                            <span>${unit.bathrooms}</span>
+                        </div>
+                    </div>
+                    <button class="book-unit-btn" onclick="bookUnit('${unit.number}')">
+                        <i class="fas fa-calendar-check" aria-hidden="true"></i>
+                        Book Now
+                    </button>
+                </div>
+            `;
+
+            // Add hover effect for video
+            const video = card.querySelector('video');
+            card.addEventListener('mouseenter', () => {
+                video.play().catch(e => console.log('Video play failed'));
+            });
+            card.addEventListener('mouseleave', () => {
+                video.pause();
+            });
+
+            return card;
+        }
+
+        function slideUnits(direction) {
+            if (direction === 'next') {
+                currentSlide++;
+                // Infinite loop - when reaching the end, go back to start
+                if (currentSlide >= otherUnits.length) {
+                    currentSlide = 0;
+                }
+            } else if (direction === 'prev') {
+                currentSlide--;
+                // Infinite loop - when reaching the start, go to end
+                if (currentSlide < 0) {
+                    currentSlide = otherUnits.length - 1;
+                }
+            }
+            
+            updateSliderPosition();
+            updateDots();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateSliderPosition();
+            updateDots();
+        }
+
+        function getVisibleUnits() {
+            const screenWidth = window.innerWidth;
+            if (screenWidth >= 1200) return 3;
+            if (screenWidth >= 768) return 2;
+            return 1;
+        }
+
+        function updateSliderPosition() {
+            const slider = document.getElementById('units-slider');
+            const cardWidth = 300; // unit-card width
+            const gap = 24; // 1.5rem gap
+            const offset = currentSlide * (cardWidth + gap);
+            
+            slider.style.transform = `translateX(-${offset}px)`;
+        }
+
+        function updateDots() {
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        function bookUnit(unitNumber) {
+            const params = getURLParameters();
+            const bookingUrl = `Reservation Details.html?clientName=${encodeURIComponent(params.clientName || '')}&phoneNumber=${encodeURIComponent(params.phoneNumber || '')}&startDate=${params.startDate || ''}&endDate=${params.endDate || ''}&unitNumber=${unitNumber}`;
+            window.location.href = bookingUrl;
+        }
+
+        // Handle window resize for responsive slider
+        window.addEventListener('resize', () => {
+            updateSliderPosition();
+        });
+
+        // Date Editor Functions
+        function openCheckInEditor() {
+            const modal = document.getElementById('date-editor-modal');
+            const params = getURLParameters();
+            
+            // Set current check-in date
+            document.getElementById('new-checkin-date').value = params.startDate || '';
+            document.getElementById('new-checkout-date').value = params.endDate || '';
+            
+            // Focus on check-in date
+            setTimeout(() => {
+                document.getElementById('new-checkin-date').focus();
+            }, 100);
+            
+            updateDatePreview();
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function openCheckOutEditor() {
+            const modal = document.getElementById('date-editor-modal');
+            const params = getURLParameters();
+            
+            // Set current dates
+            document.getElementById('new-checkin-date').value = params.startDate || '';
+            document.getElementById('new-checkout-date').value = params.endDate || '';
+            
+            // Focus on check-out date
+            setTimeout(() => {
+                document.getElementById('new-checkout-date').focus();
+            }, 100);
+            
+            updateDatePreview();
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function openDateEditor() {
+            const modal = document.getElementById('date-editor-modal');
+            const params = getURLParameters();
+            
+            // Set current dates as default values
+            document.getElementById('new-checkin-date').value = params.startDate || '';
+            document.getElementById('new-checkout-date').value = params.endDate || '';
+            
+            // Update preview
+            updateDatePreview();
+            
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            
+            // Add event listeners for date changes
+            document.getElementById('new-checkin-date').addEventListener('change', updateDatePreview);
+            document.getElementById('new-checkout-date').addEventListener('change', updateDatePreview);
+        }
+
+        function closeDateEditor() {
+            const modal = document.getElementById('date-editor-modal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            
+            // Remove event listeners
+            document.getElementById('new-checkin-date').removeEventListener('change', updateDatePreview);
+            document.getElementById('new-checkout-date').removeEventListener('change', updateDatePreview);
+        }
+
+        // Phone Editor Functions
+        function openPhoneEditor() {
+            const modal = document.getElementById('phone-editor-modal');
+            const params = getURLParameters();
+            
+            // Set current phone number
+            document.getElementById('new-phone-number').value = params.phoneNumber || '';
+            
+            // Focus on phone input
+            setTimeout(() => {
+                document.getElementById('new-phone-number').focus();
+                document.getElementById('new-phone-number').select();
+            }, 100);
+            
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePhoneEditor() {
+            const modal = document.getElementById('phone-editor-modal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function updatePhoneNumber() {
+            const newPhone = document.getElementById('new-phone-number').value.trim();
+            
+            if (!newPhone) {
+                alert(currentLanguage === 'en' ? 'Please enter a phone number.' : 'يرجى إدخال رقم الهاتف.');
+                return;
+            }
+            
+            // Basic phone validation
+            const phoneRegex = /^[\+]?[0-9\s\-\(\)]{7,15}$/;
+            if (!phoneRegex.test(newPhone)) {
+                alert(currentLanguage === 'en' ? 'Please enter a valid phone number.' : 'يرجى إدخال رقم هاتف صحيح.');
+                return;
+            }
+            
+            // Update URL parameters and reload page with new phone number
+            const params = getURLParameters();
+            const newUrl = `${window.location.pathname}?clientName=${encodeURIComponent(params.clientName || '')}&phoneNumber=${encodeURIComponent(newPhone)}&startDate=${params.startDate}&endDate=${params.endDate}&unitNumber=${params.unitNumber}`;
+            
+            window.location.href = newUrl;
+        }
+
+        function updateDatePreview() {
+            const checkinDate = document.getElementById('new-checkin-date').value;
+            const checkoutDate = document.getElementById('new-checkout-date').value;
+            
+            if (checkinDate && checkoutDate) {
+                const duration = calculateDuration(checkinDate, checkoutDate);
+                const params = getURLParameters();
+                const unitData = unitsData[params.unitNumber];
+                const totalAmount = unitData ? unitData.price * duration : 0;
+                
+                document.getElementById('preview-duration').textContent = 
+                    `${duration} ${currentLanguage === 'en' ? (duration === 1 ? 'night' : 'nights') : (duration === 1 ? 'ليلة' : 'ليالٍ')}`;
+                document.getElementById('preview-total').textContent = `${totalAmount.toLocaleString()} SAR`;
+            } else {
+                document.getElementById('preview-duration').textContent = 
+                    currentLanguage === 'en' ? '0 nights' : '0 ليالٍ';
+                document.getElementById('preview-total').textContent = '0 SAR';
+            }
+        }
+
+        function updateDates() {
+            const checkinDate = document.getElementById('new-checkin-date').value;
+            const checkoutDate = document.getElementById('new-checkout-date').value;
+            
+            if (!checkinDate || !checkoutDate) {
+                alert(currentLanguage === 'en' ? 'Please select both check-in and check-out dates.' : 'يرجى تحديد تاريخ الوصول والمغادرة.');
+                return;
+            }
+            
+            if (new Date(checkinDate) >= new Date(checkoutDate)) {
+                alert(currentLanguage === 'en' ? 'Check-out date must be after check-in date.' : 'يجب أن يكون تاريخ المغادرة بعد تاريخ الوصول.');
+                return;
+            }
+            
+            // Update URL parameters and reload page with new dates
+            const params = getURLParameters();
+            const newUrl = `${window.location.pathname}?clientName=${encodeURIComponent(params.clientName || '')}&phoneNumber=${encodeURIComponent(params.phoneNumber || '')}&startDate=${checkinDate}&endDate=${checkoutDate}&unitNumber=${params.unitNumber}`;
+            
+            window.location.href = newUrl;
+        }
+
+        // Payment Handler
+        function handlePayment() {
+            const paymentBtn = document.getElementById('payment-btn');
+            const originalText = paymentBtn.innerHTML;
+
+            // Disable button and show loading
+            paymentBtn.disabled = true;
+            paymentBtn.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Processing...';
+
+            // Simulate payment processing (replace with actual payment integration)
+            setTimeout(() => {
+                // Get reservation data
+                const params = getURLParameters();
+                const unitData = unitsData[params.unitNumber];
+                const duration = calculateDuration(params.startDate, params.endDate);
+                const totalAmount = unitData.price * duration;
+
+                // Here you would integrate with your payment processor
+                // For now, we'll just show an alert
+                alert(`Payment integration would be implemented here!\n\nReservation Details:\n- Guest: ${params.clientName}\n- Phone: ${params.phoneNumber}\n- Unit: ${unitData.name}\n- Dates: ${formatDate(params.startDate)} to ${formatDate(params.endDate)}\n- Total: ${totalAmount.toLocaleString()} SAR`);
+
+                // Reset button
+                paymentBtn.disabled = false;
+                paymentBtn.innerHTML = originalText;
+
+                // In a real implementation, you might redirect to a payment gateway or confirmation page
+                // window.location.href = 'payment-gateway-url';
+            }, 2000);
+        }
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize Arabic as default language
+            updateLanguage();
+            
+            // Initialize page content
+            initializePage();
+        });
+
+        // Payment Method Event Listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.payment-method-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    selectPaymentMethod(btn.dataset.method);
+                });
+            });
+
+            document.getElementById('proceed-payment-btn').addEventListener('click', processPayment);
+
+            // Coupon Event Listeners
+            document.getElementById('apply-coupon-btn').addEventListener('click', applyCoupon);
+            document.getElementById('coupon-input').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    applyCoupon();
+                }
+            });
+
+            // File Upload Event Listeners
+            document.getElementById('file-input').addEventListener('change', (e) => {
+                handleFileUpload(e.target.files);
+            });
+
+            // Drag and Drop for File Upload
+            const uploadArea = document.querySelector('.file-upload-area');
+            
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.classList.add('dragover');
+            });
+            
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.classList.remove('dragover');
+            });
+            
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+                handleFileUpload(e.dataTransfer.files);
+            });
+
+            // Modal Event Listeners
+            document.getElementById('bank-transfer-modal').addEventListener('click', (e) => {
+                if (e.target.classList.contains('modal-overlay')) {
+                    closeBankTransferModal();
+                }
+            });
+        });
+
+        // Auto-play video when loaded
+        document.getElementById('unit-video').addEventListener('loadeddata', function() {
+            this.play().catch(e => console.log('Auto-play prevented by browser'));
+        });
+    </script>
+</body>
+</html>

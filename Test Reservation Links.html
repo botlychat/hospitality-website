@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Reservation Links — Aria Resorts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: #f8fafc;
+        }
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #5A4099;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #374151;
+        }
+        input, select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+        }
+        button {
+            background: #5A4099;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 1rem;
+        }
+        button:hover {
+            background: #4c1d95;
+        }
+        .generated-link {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: #f0f9ff;
+            border: 1px solid #0ea5e9;
+            border-radius: 0.5rem;
+            word-break: break-all;
+        }
+        .test-links {
+            margin-top: 2rem;
+        }
+        .test-link {
+            display: block;
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: #f4f0ff;
+            color: #5A4099;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            border: 1px solid #d8b4fe;
+        }
+        .test-link:hover {
+            background: #5A4099;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Reservation Link Generator & Tester</h1>
+        
+        <form id="linkForm">
+            <div class="form-group">
+                <label for="clientName">Client Name:</label>
+                <input type="text" id="clientName" value="Ahmad Al-Khalil" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="phoneNumber">Phone Number:</label>
+                <input type="tel" id="phoneNumber" value="+973 1234 5678" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="startDate">Check-in Date:</label>
+                <input type="date" id="startDate" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="endDate">Check-out Date:</label>
+                <input type="date" id="endDate" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="unitNumber">Unit Number:</label>
+                <select id="unitNumber" required>
+                    <option value="">Select a unit...</option>
+                    <option value="1">Chalet 1 (500 SAR/night)</option>
+                    <option value="2">Chalet 2 (500 SAR/night)</option>
+                    <option value="3">Chalet 3 (500 SAR/night)</option>
+                    <option value="4">Chalet 4 (1000 SAR/night)</option>
+                    <option value="5">Chalet 5 (1000 SAR/night)</option>
+                    <option value="6">Chalet 6 (500 SAR/night)</option>
+                    <option value="7">Chalet 7 (500 SAR/night)</option>
+                    <option value="8">Chalet 8 (500 SAR/night)</option>
+                </select>
+            </div>
+            
+            <button type="submit">Generate Reservation Link</button>
+        </form>
+        
+        <div id="generatedLink" class="generated-link" style="display: none;">
+            <h3>Generated Link:</h3>
+            <p id="linkText"></p>
+            <a id="testLink" href="#" target="_blank">📋 Test This Link</a>
+        </div>
+        
+        <div class="test-links">
+            <h3>🚀 Quick Test Links:</h3>
+            <a href="./Reservation Details.html?clientName=John%20Smith&phoneNumber=%2B973%201234%205678&startDate=2024-12-01&endDate=2024-12-03&unitNumber=1" class="test-link" target="_blank">
+                Test Chalet 1 - John Smith (Dec 1-3, 2024)
+            </a>
+            <a href="./Reservation Details.html?clientName=Sarah%20Johnson&phoneNumber=%2B973%209876%205432&startDate=2024-12-15&endDate=2024-12-20&unitNumber=4" class="test-link" target="_blank">
+                Test Chalet 4 - Sarah Johnson (Dec 15-20, 2024)
+            </a>
+            <a href="./Reservation Details.html?clientName=Ahmed%20Al-Khalil&phoneNumber=%2B973%205555%201234&startDate=2024-12-25&endDate=2024-12-28&unitNumber=8" class="test-link" target="_blank">
+                Test Chalet 8 - Ahmed Al-Khalil (Dec 25-28, 2024)
+            </a>
+        </div>
+        
+        <div style="margin-top: 2rem; padding: 1rem; background: #fef3c7; border-radius: 0.5rem;">
+            <h4>📖 How to Use:</h4>
+            <ol>
+                <li>Fill in the form above with reservation details</li>
+                <li>Click "Generate Reservation Link"</li>
+                <li>Use the generated link to test the reservation page</li>
+                <li>Or try one of the quick test links above</li>
+            </ol>
+            
+            <h4>🔗 URL Parameters:</h4>
+            <ul>
+                <li><code>clientName</code> - Guest's name</li>
+                <li><code>phoneNumber</code> - Guest's phone number</li>
+                <li><code>startDate</code> - Check-in date (YYYY-MM-DD)</li>
+                <li><code>endDate</code> - Check-out date (YYYY-MM-DD)</li>
+                <li><code>unitNumber</code> - Unit number (1-8)</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Set default dates (tomorrow to day after tomorrow)
+        const today = new Date();
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const dayAfter = new Date(today);
+        dayAfter.setDate(dayAfter.getDate() + 3);
+
+        document.getElementById('startDate').value = tomorrow.toISOString().split('T')[0];
+        document.getElementById('endDate').value = dayAfter.toISOString().split('T')[0];
+
+        // Form submission handler
+        document.getElementById('linkForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const clientName = document.getElementById('clientName').value;
+            const phoneNumber = document.getElementById('phoneNumber').value;
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            const unitNumber = document.getElementById('unitNumber').value;
+            
+            // Create URL with parameters
+            const baseUrl = './Reservation Details.html';
+            const params = new URLSearchParams({
+                clientName: clientName,
+                phoneNumber: phoneNumber,
+                startDate: startDate,
+                endDate: endDate,
+                unitNumber: unitNumber
+            });
+            
+            const fullUrl = `${baseUrl}?${params.toString()}`;
+            
+            // Display the generated link
+            document.getElementById('linkText').textContent = fullUrl;
+            document.getElementById('testLink').href = fullUrl;
+            document.getElementById('generatedLink').style.display = 'block';
+        });
+    </script>
+</body>
+</html>

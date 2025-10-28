@@ -563,6 +563,56 @@
             font-size: 1.25rem;
         }
 
+        /* WhatsApp Contact Section under Maps */
+        .whatsapp-contact-section {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #25d366, #20b358);
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3);
+        }
+
+        .whatsapp-contact-section .contact-actions {
+            margin: 0;
+        }
+
+        .whatsapp-contact-section h4 {
+            color: white;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .whatsapp-contact-section .whatsapp-contact-btn {
+            background: rgba(255, 255, 255, 0.95);
+            color: #25d366;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 2px solid transparent;
+            min-height: 50px;
+        }
+
+        .whatsapp-contact-section .whatsapp-contact-btn:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .whatsapp-contact-section .whatsapp-contact-btn i {
+            font-size: 1.5rem;
+            color: #25d366;
+        }
+
         .map-container {
             border-radius: 12px;
             overflow: hidden;
@@ -588,6 +638,50 @@
 
             .location-section {
                 padding: 2rem 0;
+            }
+
+            /* Mobile-friendly WhatsApp button */
+            .whatsapp-contact-section {
+                margin-top: 1rem;
+                padding: 1.25rem;
+            }
+
+            .whatsapp-contact-section h4 {
+                font-size: 1.1rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .whatsapp-contact-section .whatsapp-contact-btn {
+                padding: 0.875rem 1.5rem;
+                font-size: 0.95rem;
+                width: 100%;
+                justify-content: center;
+                min-height: 48px;
+            }
+
+            .whatsapp-contact-section .whatsapp-contact-btn i {
+                font-size: 1.25rem;
+            }
+        }
+
+        /* Extra small devices */
+        @media (max-width: 480px) {
+            .whatsapp-contact-section {
+                margin: 1rem -1rem 0;
+                padding: 1rem;
+                border-radius: 8px;
+            }
+
+            .whatsapp-contact-section .whatsapp-contact-btn {
+                padding: 1rem;
+                font-size: 0.9rem;
+                gap: 0.5rem;
+            }
+
+            .map-container {
+                height: 200px;
+                margin: 0 -1rem;
+                border-radius: 8px;
             }
         }
 
@@ -1594,14 +1688,6 @@
                     </div>
                 </div>
 
-                <!-- WhatsApp Support -->
-                <div class="whatsapp-section">
-                    <a id="whatsapp-btn" class="whatsapp-btn" href="#" target="_blank">
-                        <i class="fab fa-whatsapp" aria-hidden="true"></i>
-                        <span data-en="Contact us on WhatsApp" data-ar="تحدث معنا عبر الواتساب">تحدث معنا عبر الواتساب</span>
-                    </a>
-                </div>
-
                 <!-- Payment Methods -->
                 <div class="payment-section">
                     <h3 style="margin-bottom: 1rem; color: #374151;">Select Payment Method</h3>
@@ -1693,6 +1779,17 @@
                         referrerpolicy="no-referrer-when-downgrade"
                         title="Aria Resorts Location">
                     </iframe>
+                </div>
+                
+                <!-- WhatsApp Contact Section -->
+                <div class="whatsapp-contact-section">
+                    <div class="contact-actions">
+                        <h4 data-en="Contact Us" data-ar="اتصل بنا">اتصل بنا</h4>
+                        <a id="whatsapp-btn" href="#" class="whatsapp-contact-btn" target="_blank">
+                            <i class="fab fa-whatsapp" aria-hidden="true"></i>
+                            <span data-en="Chat with us on WhatsApp" data-ar="تحدث معنا عبر الواتساب">تحدث معنا عبر الواتساب</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
